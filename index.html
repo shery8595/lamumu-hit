@@ -43,49 +43,49 @@
     }
     
     h1 {
-        font-size: 4.8rem;
-        margin: 0;
+        font-size: 2.5rem;
+        margin: 10px 0;
         color: white;
-        text-shadow: 3px 3px 0 #4A90E2,
-                    6px 6px 0 #FF8ED4,
-                    9px 9px 0 rgba(0, 0, 0, 0.5);
-        letter-spacing: 2px;
+        text-shadow: 2px 2px 0 #4A90E2,
+                    4px 4px 0 #FF8ED4,
+                    6px 6px 0 rgba(0, 0, 0, 0.5);
+        letter-spacing: 1px;
         transform: rotate(-2deg);
         animation: float 3s ease-in-out infinite;
         text-align: center;
-        padding: 20px;
+        padding: 10px;
         font-family: 'Bubblegum Sans', cursive;
         font-weight: normal;
     }
     
     @keyframes float {
         0%, 100% { transform: rotate(-2deg); }
-        50% { transform: translateY(-10px) rotate(-3deg); }
+        50% { transform: translateY(-5px) rotate(-3deg); }
     }
     
     .subtitle {
         text-align: center;
-        font-size: 20px;
+        font-size: 16px;
         color: #00ffff;
-        margin-bottom: 30px;
+        margin-bottom: 15px;
         font-weight: 600;
         font-family: 'Chakra Petch', monospace;
-        text-shadow: 0 0 15px rgba(0, 255, 255, 0.7);
+        text-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
         opacity: 0.9;
     }
     
     .timer-display {
         position: absolute;
-        top: 20px;
-        right: 20px;
-        font-size: 24px;
+        top: 10px;
+        right: 10px;
+        font-size: 16px;
         font-weight: 700;
         color: #ff0080;
-        text-shadow: 0 0 15px rgba(255, 0, 128, 0.7);
+        text-shadow: 0 0 10px rgba(255, 0, 128, 0.7);
         background: rgba(0, 0, 0, 0.8);
-        padding: 15px 20px;
-        border-radius: 10px;
-        border: 2px solid #ff0080;
+        padding: 8px 12px;
+        border-radius: 8px;
+        border: 1px solid #ff0080;
         font-family: 'Chakra Petch', monospace;
     }
     
@@ -114,13 +114,13 @@
         background: linear-gradient(45deg, #ff0080, #00ffff);
         color: white;
         border: none;
-        padding: 20px 40px;
-        font-size: 24px;
+        padding: 12px 24px;
+        font-size: 18px;
         font-weight: 700;
         font-family: 'Chakra Petch', monospace;
-        border-radius: 25px;
+        border-radius: 20px;
         cursor: pointer;
-        box-shadow: 0 0 30px rgba(255, 0, 128, 0.8);
+        box-shadow: 0 0 20px rgba(255, 0, 128, 0.8);
         transition: all 0.3s ease;
         display: none;
         z-index: 1000;
@@ -128,7 +128,7 @@
     
     .restart-button:hover {
         transform: translate(-50%, -50%) scale(1.05);
-        box-shadow: 0 0 40px rgba(255, 0, 128, 1);
+        box-shadow: 0 0 25px rgba(255, 0, 128, 1);
     }
     
     .restart-button.visible {
@@ -137,15 +137,15 @@
     
     .creator-credit {
         position: fixed;
-        top: 20px;
-        left: 20px;
+        top: 10px;
+        left: 10px;
         font-family: 'Chakra Petch', monospace;
-        font-size: 14px;
+        font-size: 12px;
         color: white;
         background: rgba(0, 0, 0, 0.7);
-        padding: 8px 15px;
-        border-radius: 20px;
-        border: 2px solid #00ffff;
+        padding: 5px 10px;
+        border-radius: 15px;
+        border: 1px solid #00ffff;
         z-index: 1000;
         opacity: 0.8;
         transition: all 0.3s ease;
@@ -161,35 +161,35 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        gap: 40px;
-        padding: 20px;
-        height: calc(100vh - 150px);
+        gap: 20px;
+        padding: 10px;
+        height: calc(100vh - 120px);
     }
     
     canvas {
         display: block;
         background: linear-gradient(45deg, #111, #1a1a1a);
-        border: 3px solid #00ffff;
-        border-radius: 10px;
-        box-shadow: 0 0 30px rgba(0, 255, 255, 0.3),
-                    inset 0 0 20px rgba(0, 255, 255, 0.1);
+        border: 2px solid #00ffff;
+        border-radius: 8px;
+        box-shadow: 0 0 20px rgba(0, 255, 255, 0.3),
+                    inset 0 0 15px rgba(0, 255, 255, 0.1);
         transition: all 0.3s ease;
     }
     
     canvas:hover {
-        box-shadow: 0 0 40px rgba(0, 255, 255, 0.5),
-                    inset 0 0 25px rgba(0, 255, 255, 0.2);
-        transform: scale(1.02);
+        box-shadow: 0 0 25px rgba(0, 255, 255, 0.5),
+                    inset 0 0 20px rgba(0, 255, 255, 0.2);
+        transform: scale(1.01);
     }
     
     #gauge {
         position: relative;
-        width: 30px;
-        height: 300px;
+        width: 20px;
+        height: 200px;
         background: linear-gradient(to bottom, #333, #222);
-        border: 3px solid #ff0080;
-        border-radius: 15px;
-        box-shadow: 0 0 20px rgba(255, 0, 128, 0.3);
+        border: 2px solid #ff0080;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(255, 0, 128, 0.3);
         overflow: hidden;
     }
     
@@ -200,22 +200,22 @@
         height: 0;
         background: linear-gradient(to top, #00ff41, #00ffff);
         transition: height 0.2s ease;
-        border-radius: 12px;
-        box-shadow: 0 0 15px rgba(0, 255, 65, 0.5);
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
     }
     
     .score-display {
         position: absolute;
-        top: 20px;
-        left: 20px;
-        font-size: 18px;
+        top: 10px;
+        left: 10px;
+        font-size: 14px;
         font-weight: 700;
         color: #00ffff;
-        text-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
+        text-shadow: 0 0 8px rgba(0, 255, 255, 0.7);
         background: rgba(0, 0, 0, 0.7);
-        padding: 10px 15px;
-        border-radius: 8px;
-        border: 2px solid #00ffff;
+        padding: 6px 10px;
+        border-radius: 6px;
+        border: 1px solid #00ffff;
         font-family: 'Chakra Petch', monospace;
     }
     
@@ -242,8 +242,8 @@
     
     .particle {
         position: absolute;
-        width: 4px;
-        height: 4px;
+        width: 3px;
+        height: 3px;
         background: #ff0080;
         border-radius: 50%;
         pointer-events: none;
@@ -256,21 +256,21 @@
             opacity: 1;
         }
         100% {
-            transform: translateY(-50px) scale(0);
+            transform: translateY(-30px) scale(0);
             opacity: 0;
         }
     }
     
     .instructions {
         position: absolute;
-        bottom: 20px;
+        bottom: 10px;
         left: 50%;
         transform: translateX(-50%);
         text-align: center;
         color: #8000ff;
-        font-size: 14px;
+        font-size: 12px;
         opacity: 0.8;
-        text-shadow: 0 0 10px rgba(128, 0, 255, 0.5);
+        text-shadow: 0 0 8px rgba(128, 0, 255, 0.5);
     }
 </style>
 </head>
@@ -288,7 +288,7 @@
     
     <div class="game-container">
         <div style="position: relative;">
-            <canvas id="gameCanvas" width="1000" height="700"></canvas>
+            <canvas id="gameCanvas" width="600" height="400"></canvas>
             <div class="score-display" id="scoreDisplay">Score: 0</div>
         </div>
         <div id="gauge">
@@ -326,7 +326,7 @@
             star.className = 'star';
             star.style.left = Math.random() * 100 + '%';
             star.style.top = Math.random() * 100 + '%';
-            star.style.width = Math.random() * 3 + 1 + 'px';
+            star.style.width = Math.random() * 2 + 1 + 'px';
             star.style.height = star.style.width;
             star.style.setProperty('--twinkle-duration', (Math.random() * 3 + 2) + 's');
             star.style.animationDelay = Math.random() * 3 + 's';
@@ -395,23 +395,23 @@
         lamumuImage = new Image();
         lamumuImage.onload = function() {
             // Adjust target radius based on scaled image size
-            target.r = Math.max(lamumuImage.width, lamumuImage.height) * 0.3; // Scale down to 30% of original size
+            target.r = Math.max(lamumuImage.width, lamumuImage.height) * 0.2; // Scale down to 20% of original size
         };
         lamumuImage.src = 'lamumu_images/lamumu.png';
     }
 
     function spawnTarget() {
-        target.x = Math.random() * (canvas.width - 200) + 100;
-        target.y = Math.random() * (canvas.height - 200) + 100;
+        target.x = Math.random() * (canvas.width - 100) + 50;
+        target.y = Math.random() * (canvas.height - 100) + 50;
     }
 
     function createParticles(x, y) {
-        for (let i = 0; i < 8; i++) {
+        for (let i = 0; i < 6; i++) {
             particles.push({
                 x: x,
                 y: y,
-                vx: (Math.random() - 0.5) * 8,
-                vy: (Math.random() - 0.5) * 8,
+                vx: (Math.random() - 0.5) * 5,
+                vy: (Math.random() - 0.5) * 5,
                 life: 1,
                 color: `hsl(${Math.random() * 360}, 100%, 70%)`
             });
@@ -440,7 +440,7 @@
             createParticles(target.x, target.y);
             
             // Update gauge
-            gauge = Math.min(300, gauge + 80); // Increased from 50 to 80 for much easier filling
+            gauge = Math.min(200, gauge + 60); // Adjusted for smaller gauge
             
             // Spawn new target
             spawnTarget();
@@ -449,11 +449,11 @@
 
     function updateGauge() {
         if (gameActive) {
-            gauge -= 0.1; // Significantly reduced from 0.3 to make it much easier to fill
+            gauge -= 0.08; // Adjusted for smaller gauge
             if (gauge < 0) gauge = 0;
             
             // Check if gauge is full and give time bonus
-            if (gauge >= 300) {
+            if (gauge >= 200) {
                 timeLeft += 10; // Add 10 seconds
                 gauge = 0; // Reset gauge
                 
@@ -473,7 +473,7 @@
         // Flash effect for time bonus
         timerDisplay.style.color = '#00ff41';
         timerDisplay.style.borderColor = '#00ff41';
-        timerDisplay.style.boxShadow = '0 0 20px rgba(0, 255, 65, 0.8)';
+        timerDisplay.style.boxShadow = '0 0 15px rgba(0, 255, 65, 0.8)';
         
         // Reset to normal after 1 second
         setTimeout(() => {
@@ -502,7 +502,7 @@
             ctx.globalAlpha = p.life;
             ctx.fillStyle = p.color;
             ctx.beginPath();
-            ctx.arc(p.x, p.y, 3 * p.life, 0, Math.PI * 2);
+            ctx.arc(p.x, p.y, 2 * p.life, 0, Math.PI * 2);
             ctx.fill();
             ctx.restore();
         });
@@ -518,10 +518,10 @@
             
             // Add a subtle glow effect
             ctx.shadowColor = '#00ffff';
-            ctx.shadowBlur = 20;
+            ctx.shadowBlur = 15;
             
-            // Scale down the image to 30% of original size
-            const scale = 0.3;
+            // Scale down the image to 20% of original size
+            const scale = 0.2;
             const scaledWidth = lamumuImage.width * scale;
             const scaledHeight = lamumuImage.height * scale;
             
@@ -540,7 +540,7 @@
             ctx.save();
             ctx.globalAlpha = hitEffect.alpha;
             ctx.strokeStyle = '#00ffff';
-            ctx.lineWidth = 4;
+            ctx.lineWidth = 3;
             ctx.beginPath();
             ctx.arc(hitEffect.x, hitEffect.y, hitEffect.r * hitEffect.scale, 0, Math.PI * 2);
             ctx.stroke();
