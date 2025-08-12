@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lamumu-Hit</title>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@400;700;900&family=Chakra+Petch:wght@400;600;700&family=Bubblegum+Sans&display=swap');
+    
+    body {
+        margin: 0;
+        font-family: 'Chakra Petch', monospace;
+        background: linear-gradient(135deg, #0a0a0a 0%, #1a0033 50%, #0d1b2a 100%);
+        color: white;
+        overflow: hidden;
+        min-height: 100vh;
+        position: relative;
+    }
+    
+    /* Animated stars background */
+    .stars-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: -1;
+        overflow: hidden;
+    }
+    
+    .star {
+        position: absolute;
+        background: white;
+        border-radius: 50%;
+        animation: twinkle var(--twinkle-duration) ease-in-out infinite;
+        opacity: 0;
+    }
+    
+    @keyframes twinkle {
+        0%, 100% { opacity: 0; transform: scale(0.5); }
+        50% { opacity: 1; transform: scale(1); }
+    }
+    
+    h1 {
+        font-size: 4.8rem;
+        margin: 0;
+        color: white;
+        text-shadow: 3px 3px 0 #4A90E2,
+                    6px 6px 0 #FF8ED4,
+                    9px 9px 0 rgba(0, 0, 0, 0.5);
+        letter-spacing: 2px;
+        transform: rotate(-2deg);
+        animation: float 3s ease-in-out infinite;
+        text-align: center;
+        padding: 20px;
+        font-family: 'Bubblegum Sans', cursive;
+        font-weight: normal;
+    }
+    
+    @keyframes float {
+        0%, 100% { transform: rotate(-2deg); }
+        50% { transform: translateY(-10px) rotate(-3deg); }
+    }
+    
+    .subtitle {
+        text-align: center;
+        font-size: 20px;
+        color: #00ffff;
+        margin-bottom: 30px;
+        font-weight: 600;
+        font-family: 'Chakra Petch', monospace;
+        text-shadow: 0 0 15px rgba(0, 255, 255, 0.7);
+        opacity: 0.9;
+    }
+    
+    .timer-display {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        font-size: 24px;
+        font-weight: 700;
+        color: #ff0080;
+        text-shadow: 0 0 15px rgba(255, 0, 128, 0.7);
+        background: rgba(0, 0, 0, 0.8);
+        padding: 15px 20px;
+        border-radius: 10px;
+        border: 2px solid #ff0080;
+        font-family: 'Chakra Petch', monospace;
+    }
+    
+    .timer-display.warning {
+        color: #ff6b35;
+        border-color: #ff6b35;
+        animation: pulse 1s ease-in-out infinite;
+    }
+    
+    .timer-display.danger {
+        color: #ff0000;
+        border-color: #ff0000;
+        animation: pulse 0.5s ease-in-out infinite;
+    }
+    
+    @keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+    }
+    
+    .restart-button {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: linear-gradient(45deg, #ff0080, #00ffff);
+        color: white;
+        border: none;
+        padding: 20px 40px;
+        font-size: 24px;
+        font-weight: 700;
+        font-family: 'Chakra Petch', monospace;
+        border-radius: 25px;
+        cursor: pointer;
+        box-shadow: 0 0 30px rgba(255, 0, 128, 0.8);
+        transition: all 0.3s ease;
+        display: none;
+        z-index: 1000;
+    }
+    
+    .restart-button:hover {
+        transform: translate(-50%, -50%) scale(1.05);
+        box-shadow: 0 0 40px rgba(255, 0, 128, 1);
+    }
+    
+    .restart-button.visible {
+        display: block;
+    }
+    
+    .creator-credit {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        font-family: 'Chakra Petch', monospace;
+        font-size: 14px;
+        color: white;
+        background: rgba(0, 0, 0, 0.7);
+        padding: 8px 15px;
+        border-radius: 20px;
+        border: 2px solid #00ffff;
+        z-index: 1000;
+        opacity: 0.8;
+        transition: all 0.3s ease;
+    }
+    
+    .creator-credit:hover {
+        opacity: 1;
+        transform: scale(1.05);
+        background: rgba(0, 0, 0, 0.9);
+    }
+    
+    .game-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 40px;
+        padding: 20px;
+        height: calc(100vh - 150px);
+    }
+    
+    canvas {
+        display: block;
+        background: linear-gradient(45deg, #111, #1a1a1a);
+        border: 3px solid #00ffff;
+        border-radius: 10px;
+        box-shadow: 0 0 30px rgba(0, 255, 255, 0.3),
+                    inset 0 0 20px rgba(0, 255, 255, 0.1);
+        transition: all 0.3s ease;
+    }
+    
+    canvas:hover {
+        box-shadow: 0 0 40px rgba(0, 255, 255, 0.5),
+                    inset 0 0 25px rgba(0, 255, 255, 0.2);
+        transform: scale(1.02);
+    }
+    
+    #gauge {
+        position: relative;
+        width: 30px;
+        height: 300px;
+        background: linear-gradient(to bottom, #333, #222);
+        border: 3px solid #ff0080;
+        border-radius: 15px;
+        box-shadow: 0 0 20px rgba(255, 0, 128, 0.3);
+        overflow: hidden;
+    }
+    
+    #gauge-fill {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 0;
+        background: linear-gradient(to top, #00ff41, #00ffff);
+        transition: height 0.2s ease;
+        border-radius: 12px;
+        box-shadow: 0 0 15px rgba(0, 255, 65, 0.5);
+    }
+    
+    .score-display {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        font-size: 18px;
+        font-weight: 700;
+        color: #00ffff;
+        text-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
+        background: rgba(0, 0, 0, 0.7);
+        padding: 10px 15px;
+        border-radius: 8px;
+        border: 2px solid #00ffff;
+        font-family: 'Chakra Petch', monospace;
+    }
+    
+    .hit-animation {
+        position: absolute;
+        pointer-events: none;
+        animation: hitPulse 0.6s ease-out forwards;
+    }
+    
+    @keyframes hitPulse {
+        0% {
+            transform: scale(1);
+            opacity: 1;
+        }
+        50% {
+            transform: scale(1.5);
+            opacity: 0.8;
+        }
+        100% {
+            transform: scale(2);
+            opacity: 0;
+        }
+    }
+    
+    .particle {
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        background: #ff0080;
+        border-radius: 50%;
+        pointer-events: none;
+        animation: particleFloat 1s ease-out forwards;
+    }
+    
+    @keyframes particleFloat {
+        0% {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+        100% {
+            transform: translateY(-50px) scale(0);
+            opacity: 0;
+        }
+    }
+    
+    .instructions {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+        color: #8000ff;
+        font-size: 14px;
+        opacity: 0.8;
+        text-shadow: 0 0 10px rgba(128, 0, 255, 0.5);
+    }
+</style>
+</head>
+<body>
+    <div class="stars-container" id="starsContainer"></div>
+    
+    <div class="creator-credit">made by: @donutlover8595</div>
+    
+    <h1>Lamumu-Hit</h1>
+    <div class="subtitle">Click on Lamumu to score points!</div>
+    
+    <button class="restart-button" id="restartButton">Restart Game</button>
+    
+    <div class="timer-display" id="timerDisplay">Time: 1:00</div>
+    
+    <div class="game-container">
+        <div style="position: relative;">
+            <canvas id="gameCanvas" width="1000" height="700"></canvas>
+            <div class="score-display" id="scoreDisplay">Score: 0</div>
+        </div>
+        <div id="gauge">
+            <div id="gauge-fill"></div>
+        </div>
+    </div>
+    <div class="instructions">Hit the target to keep your gauge filled!</div>
+    
+    <audio id="hitSound" src="lamumu_sound/cow_mowing.mp3" preload="auto"></audio>
+
+<script>
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    const hitSound = document.getElementById('hitSound');
+    const gaugeFill = document.getElementById('gauge-fill');
+    const scoreDisplay = document.getElementById('scoreDisplay');
+
+    let score = 0;
+    let gauge = 0;
+    let target = { x: 200, y: 200, r: 30 };
+    let hitEffect = null;
+    let lamumuImage = null;
+    let particles = [];
+    let timeLeft = 60; // 1 minute in seconds
+    let gameActive = true;
+    let timerInterval; // Declare timerInterval here
+
+    // Create animated stars
+    function createStars() {
+        const starsContainer = document.getElementById('starsContainer');
+        const starCount = 100;
+        
+        for (let i = 0; i < starCount; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.width = Math.random() * 3 + 1 + 'px';
+            star.style.height = star.style.width;
+            star.style.setProperty('--twinkle-duration', (Math.random() * 3 + 2) + 's');
+            star.style.animationDelay = Math.random() * 3 + 's';
+            starsContainer.appendChild(star);
+        }
+    }
+
+    // Timer function
+    function updateTimer() {
+        if (!gameActive) return;
+        
+        timeLeft--;
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        const timeString = `Time: ${minutes}:${seconds.toString().padStart(2, '0')}`;
+        
+        document.getElementById('timerDisplay').textContent = timeString;
+        
+        // Add warning and danger states
+        const timerDisplay = document.getElementById('timerDisplay');
+        timerDisplay.classList.remove('warning', 'danger');
+        
+        if (timeLeft <= 30 && timeLeft > 10) {
+            timerDisplay.classList.add('warning');
+        } else if (timeLeft <= 10) {
+            timerDisplay.classList.add('danger');
+        }
+        
+        if (timeLeft <= 0) {
+            gameActive = false;
+            timerDisplay.textContent = 'Time\'s Up!';
+            timerDisplay.classList.add('danger');
+            document.getElementById('restartButton').classList.add('visible');
+            
+            // Stop the game completely
+            clearInterval(timerInterval);
+        }
+    }
+
+    // Restart game function
+    function restartGame() {
+        score = 0;
+        gauge = 0;
+        timeLeft = 60;
+        gameActive = true;
+        
+        // Reset displays
+        document.getElementById('scoreDisplay').textContent = 'Score: 0';
+        document.getElementById('timerDisplay').textContent = 'Time: 1:00';
+        document.getElementById('timerDisplay').classList.remove('warning', 'danger');
+        document.getElementById('restartButton').classList.remove('visible');
+        
+        // Clear particles and effects
+        particles = [];
+        hitEffect = null;
+        
+        // Spawn new target
+        spawnTarget();
+        
+        // Restart timer
+        timerInterval = setInterval(updateTimer, 1000);
+    }
+
+    // Load the Lamumu image
+    function loadLamumuImage() {
+        lamumuImage = new Image();
+        lamumuImage.onload = function() {
+            // Adjust target radius based on scaled image size
+            target.r = Math.max(lamumuImage.width, lamumuImage.height) * 0.3; // Scale down to 30% of original size
+        };
+        lamumuImage.src = 'lamumu_images/lamumu.png';
+    }
+
+    function spawnTarget() {
+        target.x = Math.random() * (canvas.width - 200) + 100;
+        target.y = Math.random() * (canvas.height - 200) + 100;
+    }
+
+    function createParticles(x, y) {
+        for (let i = 0; i < 8; i++) {
+            particles.push({
+                x: x,
+                y: y,
+                vx: (Math.random() - 0.5) * 8,
+                vy: (Math.random() - 0.5) * 8,
+                life: 1,
+                color: `hsl(${Math.random() * 360}, 100%, 70%)`
+            });
+        }
+    }
+
+    canvas.addEventListener('click', e => {
+        if (!gameActive) return; // Don't allow clicking when game is over
+        
+        const rect = canvas.getBoundingClientRect();
+        const mx = e.clientX - rect.left;
+        const my = e.clientY - rect.top;
+
+        if (Math.hypot(mx - target.x, my - target.y) <= target.r) {
+            score++;
+            scoreDisplay.textContent = `Score: ${score}`;
+            
+            // Play hit sound
+            hitSound.currentTime = 0;
+            hitSound.play().catch(e => console.log('Audio play failed:', e));
+            
+            // Create hit effect
+            hitEffect = { x: target.x, y: target.y, r: target.r, alpha: 1, scale: 1 };
+            
+            // Create particles
+            createParticles(target.x, target.y);
+            
+            // Update gauge
+            gauge = Math.min(300, gauge + 80); // Increased from 50 to 80 for much easier filling
+            
+            // Spawn new target
+            spawnTarget();
+        }
+    });
+
+    function updateGauge() {
+        if (gameActive) {
+            gauge -= 0.1; // Significantly reduced from 0.3 to make it much easier to fill
+            if (gauge < 0) gauge = 0;
+            
+            // Check if gauge is full and give time bonus
+            if (gauge >= 300) {
+                timeLeft += 10; // Add 10 seconds
+                gauge = 0; // Reset gauge
+                
+                // Show time bonus effect
+                showTimeBonus();
+            }
+            
+            gaugeFill.style.height = gauge + 'px';
+        }
+    }
+    
+    // Show time bonus effect
+    function showTimeBonus() {
+        const timerDisplay = document.getElementById('timerDisplay');
+        const originalText = timerDisplay.textContent;
+        
+        // Flash effect for time bonus
+        timerDisplay.style.color = '#00ff41';
+        timerDisplay.style.borderColor = '#00ff41';
+        timerDisplay.style.boxShadow = '0 0 20px rgba(0, 255, 65, 0.8)';
+        
+        // Reset to normal after 1 second
+        setTimeout(() => {
+            timerDisplay.style.color = '';
+            timerDisplay.style.borderColor = '';
+            timerDisplay.style.boxShadow = '';
+        }, 1000);
+    }
+
+    function updateParticles() {
+        for (let i = particles.length - 1; i >= 0; i--) {
+            const p = particles[i];
+            p.x += p.vx;
+            p.y += p.vy;
+            p.life -= 0.02;
+            
+            if (p.life <= 0) {
+                particles.splice(i, 1);
+            }
+        }
+    }
+
+    function drawParticles() {
+        particles.forEach(p => {
+            ctx.save();
+            ctx.globalAlpha = p.life;
+            ctx.fillStyle = p.color;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, 3 * p.life, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+        });
+    }
+
+    function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Draw target (Lamumu image)
+        if (lamumuImage) {
+            ctx.save();
+            ctx.translate(target.x, target.y);
+            
+            // Add a subtle glow effect
+            ctx.shadowColor = '#00ffff';
+            ctx.shadowBlur = 20;
+            
+            // Scale down the image to 30% of original size
+            const scale = 0.3;
+            const scaledWidth = lamumuImage.width * scale;
+            const scaledHeight = lamumuImage.height * scale;
+            
+            ctx.drawImage(lamumuImage, -scaledWidth/2, -scaledHeight/2, scaledWidth, scaledHeight);
+            ctx.restore();
+        } else {
+            // Fallback circle if image not loaded
+            ctx.beginPath();
+            ctx.arc(target.x, target.y, target.r, 0, Math.PI * 2);
+            ctx.fillStyle = '#ff0080';
+            ctx.fill();
+        }
+
+        // Draw hit effect
+        if (hitEffect) {
+            ctx.save();
+            ctx.globalAlpha = hitEffect.alpha;
+            ctx.strokeStyle = '#00ffff';
+            ctx.lineWidth = 4;
+            ctx.beginPath();
+            ctx.arc(hitEffect.x, hitEffect.y, hitEffect.r * hitEffect.scale, 0, Math.PI * 2);
+            ctx.stroke();
+            
+            hitEffect.alpha -= 0.03;
+            hitEffect.scale += 0.05;
+            
+            if (hitEffect.alpha <= 0) {
+                hitEffect = null;
+            }
+            ctx.restore();
+        }
+
+        // Draw particles
+        drawParticles();
+    }
+
+    function gameLoop() {
+        if (gameActive) {
+            updateGauge();
+            updateParticles();
+        }
+        draw();
+        requestAnimationFrame(gameLoop);
+    }
+
+    // Initialize game
+    loadLamumuImage();
+    spawnTarget();
+    createStars(); // Create stars on page load
+    
+    // Add restart button event listener
+    document.getElementById('restartButton').addEventListener('click', restartGame);
+    
+    // Start the timer
+    timerInterval = setInterval(updateTimer, 1000);
+    
+    gameLoop();
+</script>
+</body>
+</html>
